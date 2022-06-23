@@ -28,7 +28,8 @@ public:
 	bool operator>(const Date& other);
 	Date& operator=(const Date& other);
 	int operator-(const Date& other);
-	Date& operator+(int days);
+	Date operator-(unsigned int days);
+	Date operator+(unsigned int days);
 	friend std::ostream& operator<<(std::ostream& ost, const Date& date);
 
 };

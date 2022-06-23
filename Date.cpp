@@ -216,99 +216,105 @@ int Date::operator-(const Date& other)
 	}
 }
 
-Date& Date::operator+(int days)
+Date Date::operator-(unsigned int days)
 {
-	if (days > 0)
+	if (days == 0) return *this;
+
+	Date clone = *this;
+	bool visokosnyi;
+
+	while (days != 0)
 	{
+		if (clone.year % 4 == 0) visokosnyi = true;
+		else visokosnyi = false;
+
+		if ((clone.month == 1 || clone.month - 1 == 1 || clone.month - 1 == 3 || clone.month - 1 == 5 || clone.month - 1 == 7 ||
+			clone.month - 1 == 8 || clone.month - 1 == 10 || clone.month - 1 == 12) && clone.day == 1)
+		{
+			clone.day = 31;
+			if (clone.month == 1)
+			{
+				clone.month = 12;
+				clone.year--;
+			}
+			else clone.month--;
+		}
+
+		else if ((clone.month - 1 == 4 || clone.month - 1 == 6 || clone.month - 1 == 9 || clone.month - 1 == 11) && clone.day == 1)
+		{
+			clone.day = 30;
+			clone.month--;
+		}
+
+		else if (visokosnyi && clone.month - 1 == 2 && clone.day == 1)
+		{
+			clone.day = 29;
+			clone.month--;
+		}
+
+		else if (!visokosnyi && clone.month - 1 == 2 && clone.day == 1)
+		{
+			clone.day = 28;
+			clone.month--;
+		}
+
+		else clone.day--;
+
+		days--;
+	}
+
+	return clone;
+}
+
+Date Date::operator+(unsigned int days)
+{
+	if (days == 0) return *this;
+	
+		Date clone = *this;
 		bool visokosnyi;
 		
 		while (days != 0)
 		{
-			if (year % 4 == 0) visokosnyi = true;
+			if (clone.year % 4 == 0) visokosnyi = true;
 			else visokosnyi = false;
 
-			if ((month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) && day == 31)
+			if ((clone.month == 1 || clone.month == 3 || clone.month == 5 || clone.month == 7 || 
+				clone.month == 8 || clone.month == 10 || clone.month == 12) && clone.day == 31)
 			{
-				day = 1;
-				if (month == 12)
+				clone.day = 1;
+				if (clone.month == 12)
 				{
-					month = 1;
-					year++;
+					clone.month = 1;
+					clone.year++;
 				}
-				else month++;
+				else clone.month++;
 			}
 
-			else if ((month == 4 || month == 6 || month == 9 || month == 11) && day == 30)
+			else if ((clone.month == 4 || clone.month == 6 || clone.month == 9 || clone.month == 11) && clone.day == 30)
 			{
-				day = 1;
-				month++;
+				clone.day = 1;
+				clone.month++;
 			}
 
-			else if (visokosnyi && month == 2 && day == 29)
+			else if (visokosnyi && clone.month == 2 && clone.day == 29)
 			{
-				day = 1;
-				month++;
+				clone.day = 1;
+				clone.month++;
 			}
 
-			else if (!visokosnyi && month == 2 && day == 28)
+			else if (!visokosnyi && clone.month == 2 && clone.day == 28)
 			{
-				day = 1;
-				month++;
+				clone.day = 1;
+				clone.month++;
 			}
 
-			else day++;
+			else clone.day++;
 
 			days--;
-
 		}
-	}
 
-	if (days < 0)
-	{
-		bool visokosnyi;
+		return clone;
 
-		while (days != 0)
-		{
-			if (year % 4 == 0) visokosnyi = true;
-			else visokosnyi = false;
-
-			if ((month == 1 ||month - 1 == 1 || month - 1 == 3 || month - 1 == 5 || month - 1 == 7 || month - 1 == 8 || month - 1 == 10 || month - 1 == 12) && day == 1)
-			{
-				day = 31;
-				if (month == 1)
-				{
-					month = 12;
-					year--;
-				}
-				else month--;
-			}
-
-			else if ((month - 1 == 4 || month - 1 == 6 || month - 1 == 9 || month - 1 == 11) && day == 1)
-			{
-				day = 30;
-				month--;
-			}
-
-			else if (visokosnyi && month - 1 == 2 && day == 1)
-			{
-				day = 29;
-				month--;
-			}
-
-			else if (!visokosnyi && month - 1 == 2 && day == 1)
-			{
-				day = 28;
-				month--;
-			}
-
-			else day--;
-
-			days++;
-
-		}
-	}
-
-	return *this;
 }
 
 std::ostream& operator<<(std::ostream& ost, const Date& date)
