@@ -322,3 +322,13 @@ std::ostream& operator<<(std::ostream& ost, const Date& date)
 	ost << date.day << "." << date.month << "." << date.year << ".";
 	return ost;
 }
+
+std::istream& operator>>(std::istream& ist, Date& date)
+{
+	unsigned int day;
+	unsigned int month;
+	int year;
+	ist >> day >> month >> year;
+	date.set_date(day, month, year);
+	return ist;
+}

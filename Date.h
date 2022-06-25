@@ -31,7 +31,7 @@ public:
 	Date operator-(unsigned int days);
 	Date operator+(unsigned int days);
 	friend std::ostream& operator<<(std::ostream& ost, const Date& date);
-
+	friend std::istream& operator>>(std::istream& ist, Date& date);
 };
 
 #endif // !DATE123
