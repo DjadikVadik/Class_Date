@@ -325,10 +325,7 @@ std::ostream& operator<<(std::ostream& ost, const Date& date)
 
 std::istream& operator>>(std::istream& ist, Date& date)
 {
-	unsigned int day;
-	unsigned int month;
-	int year;
-	ist >> day >> month >> year;
-	date.set_date(day, month, year);
+	ist >> date.day >> date.month >> date.year;
+	date.set_date(date.day, date.month, date.year);
 	return ist;
 }
