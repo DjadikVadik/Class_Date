@@ -317,6 +317,148 @@ Date Date::operator+(unsigned int days)
 
 }
 
+Date& Date::operator++()
+{
+	bool visokosnyi;
+	if (year % 4 == 0) visokosnyi = true;
+	else visokosnyi = false;
+
+	day++;
+
+	if ((month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) && day == 32)
+	{
+		day = 1;
+		month++;
+		if (month == 13)
+		{
+			month = 1;
+			year++;
+		}
+	}
+
+	else if ((month == 4 || month == 6 || month == 9 || month == 11) && day == 31) 
+	{
+		day = 1;
+		month++;
+	}
+
+	else if (visokosnyi && month == 2 && day == 30)
+	{
+		day = 1;
+		month++;
+	}
+
+	else if (!visokosnyi && month == 2 && day == 29)
+	{
+		day = 1;
+		month++;
+	}
+
+	return *this;
+}
+
+
+Date Date::operator++(int)
+{
+	Date clone = *this;
+
+	bool visokosnyi;
+	if (year % 4 == 0) visokosnyi = true;
+	else visokosnyi = false;
+
+	day++;
+
+	if ((month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) && day == 32)
+	{
+		day = 1;
+		month++;
+		if (month == 13)
+		{
+			month = 1;
+			year++;
+		}
+	}
+
+	else if ((month == 4 || month == 6 || month == 9 || month == 11) && day == 31)
+	{
+		day = 1;
+		month++;
+	}
+
+	else if (visokosnyi && month == 2 && day == 30)
+	{
+		day = 1;
+		month++;
+	}
+
+	else if (!visokosnyi && month == 2 && day == 29)
+	{
+		day = 1;
+		month++;
+	}
+
+	return clone;
+}
+
+
+Date& Date::operator--()
+{
+	bool visokosnyi;
+	if (year % 4 == 0) visokosnyi = true;
+	else visokosnyi = false;
+
+	day--;
+
+	if (day == 0)
+	{
+		month--;
+
+		if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
+		{
+			day = 31;
+			if (month == 12) year--;
+		}
+		else if (month == 4 || month == 6 || month == 9 || month == 11) day = 30;
+		else if (visokosnyi && month == 2) day = 29;
+	
+
+		else if (!visokosnyi && month == 2) day = 28;
+	}
+
+	return *this;
+}
+
+
+Date Date::operator--(int)
+{
+	Date clone = *this;
+
+	bool visokosnyi;
+	if (year % 4 == 0) visokosnyi = true;
+	else visokosnyi = false;
+
+	day--;
+
+	if (day == 0)
+	{
+		month--;
+
+		if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
+		{
+			day = 31;
+			if (month == 12) year--;
+		}
+		else if (month == 4 || month == 6 || month == 9 || month == 11) day = 30;
+		else if (visokosnyi && month == 2) day = 29;
+
+
+		else if (!visokosnyi && month == 2) day = 28;
+	}
+
+	return clone;
+}
+
+
 std::ostream& operator<<(std::ostream& ost, const Date& date)
 {
 	ost << date.day << "." << date.month << "." << date.year << ".";

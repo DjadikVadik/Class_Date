@@ -30,6 +30,10 @@ public:
 	int operator-(const Date& other);
 	Date operator-(unsigned int days);
 	Date operator+(unsigned int days);
+	Date& operator++();
+	Date operator++(int);
+	Date& operator--();
+	Date operator--(int);
 	friend std::ostream& operator<<(std::ostream& ost, const Date& date);
 	friend std::istream& operator>>(std::istream& ist, Date& date);
 };
